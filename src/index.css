@@ -1,13 +1,56 @@
-body {
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+}
+.heading {
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  font-size: 34.4px;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.registrationimg {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+}
+
+.subheading {
+  font-family: "Nunito", sans-serif;
+  font-weight: 400;
+  font-size: 20.64px;
+}
+.regleftside {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  margin-top: 225px;
+}
+
+.regsubheading {
+  font-family: "Nunito", sans-serif;
+  font-weight: 400;
+  font-size: 20.64px;
+}
+
+.inputboxcontainer {
+  width: 368.09px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.reginput {
+  width: 100%;
+  margin-top: 56px !important;
+}
+.reglink {
+  font-family: "Nunito", sans-serif;
+  font-weight: 400;
+  font-size: 13.34px;
+  width: 100%;
+  text-align: center;
+  margin-top: 35px;
+}
+.reglink a {
+  color: #ea6c00;
+  font-weight: 700;
 }
