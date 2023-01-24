@@ -14,6 +14,11 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
 } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ColorRing } from "react-loader-spinner";
+
 const Commonbutton = styled(Button)({
   borderRadius: "86px",
   width: "100%",
@@ -31,6 +36,7 @@ const Commonbutton = styled(Button)({
 
 const Registration = () => {
   const auth = getAuth();
+  let navigate = useNavigate();
   let [formData, setFormData] = useState({
     email: "",
     fullName: "",
@@ -38,6 +44,7 @@ const Registration = () => {
   });
 
   let [show, setShow] = useState(false);
+  let [loader, setLoader] = useState(false);
 
   let [error, setError] = useState({
     email: "",
@@ -48,26 +55,26 @@ const Registration = () => {
   let handleForm = (e) => {
     let { name, value } = e.target;
     if (name == "password") {
-      let capi = /[A-Z]/;
-      let lower = /[a-z]/;
-      let num = /[0-9]/;
-      console.log(value);
-      if (!capi.test(value)) {
-        setError({ ...error, password: " one capital lettar  required" });
-        return;
-      }
-      if (!lower.test(value)) {
-        setError({ ...error, password: " one lower lettar  required" });
-        return;
-      }
-      if (!num.test(value)) {
-        setError({ ...error, password: " one number required" });
-        return;
-      }
-      if (value.length < 6) {
-        setError({ ...error, password: "password length at-least 6" });
-        return;
-      }
+      // let capi = /[A-Z]/;
+      // let lower = /[a-z]/;
+      // let num = /[0-9]/;
+      // console.log(value);
+      // if (!capi.test(value)) {
+      //   setError({ ...error, password: " one capital lettar  required" });
+      //   return;
+      // }
+      // if (!lower.test(value)) {
+      //   setError({ ...error, password: " one lower lettar  required" });
+      //   return;
+      // }
+      // if (!num.test(value)) {
+      //   setError({ ...error, password: " one number required" });
+      //   return;
+      // }
+      // if (value.length < 6) {
+      //   setError({ ...error, password: "password length at-least 6" });
+      //   return;
+      // }
     }
 
     setFormData({ ...formData, [name]: value });
@@ -99,24 +106,33 @@ const Registration = () => {
   // }
 
   let handleClick = () => {
+    //PROBLEM: form fill-up na kore button click korleo loader ashe eta off hobe kivabe
+
     let expression =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     if (formData.email == "") {
+      setLoader(false);
       setError({ ...error, email: "email required" });
     } else if (!expression.test(formData.email)) {
+      setLoader(false);
       setError({ ...error, email: "Valid email required" });
     } else if (formData.fullName == "") {
+      setLoader(false);
       setError({ ...error, fullName: "full name required" });
     } else if (formData.password == "") {
+      setLoader(false);
       setError({ ...error, password: "password required" });
     } else {
+      setLoader(true);
       createUserWithEmailAndPassword(auth, formData.email, formData.password)
         .then((user) => {
           sendEmailVerification(auth.currentUser).then(() => {
-            // Email verification sent!
-            // ...
-            console.log("email sent");
+            setLoader(false);
+            toast("Registration Successful,please check your email");
+            setTimeout(() => {
+              navigate("/login");
+            }, 2000);
           });
         })
         .catch((error) => {
@@ -124,6 +140,7 @@ const Registration = () => {
           // const errorMessage = error.message;
 
           if (errorCode.includes("auth/email-already-in-use")) {
+            setLoader(false);
             setError({ ...error, email: "Email Already Exists" });
           }
         });
@@ -132,6 +149,18 @@ const Registration = () => {
   return (
     <>
       <Grid container spacing={2}>
+        <ToastContainer
+          position="bottom-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
         <Grid item xs={6}>
           <div className="regleftside">
             <div>
@@ -198,11 +227,31 @@ const Registration = () => {
                     {error.password}
                   </Alert>
                 )}
-                <PButton
-                  click={handleClick}
-                  bname={Commonbutton}
-                  title="Sign up"
-                />
+
+                {loader ? (
+                  <ColorRing
+                    visible={true}
+                    height="80"
+                    width="80"
+                    ariaLabel="blocks-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="blocks-wrapper"
+                    colors={[
+                      "#e15b64",
+                      "#f47e60",
+                      "#f8b26a",
+                      "#abbd81",
+                      "#849b87",
+                    ]}
+                  />
+                ) : (
+                  <PButton
+                    click={handleClick}
+                    bname={Commonbutton}
+                    title="Sign up"
+                  />
+                )}
+
                 <AuthenticationLink
                   className="reglink"
                   title="Already have an account"
