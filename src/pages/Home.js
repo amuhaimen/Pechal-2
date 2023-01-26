@@ -4,6 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { activeUser } from "../slices/userSlice";
 import Grid from "@mui/material/Grid";
+import GroupList from "../components/GroupList";
+import Friendrequest from "../components/Friendrequest";
+import Friends from "../components/Friends";
+import MyGroups from "../components/MyGroups";
+import Userlist from "../components/Userlist";
 
 const Home = () => {
   const auth = getAuth();
@@ -42,13 +47,15 @@ const Home = () => {
     <>
       {/* <h1>Home</h1> */}
       <Grid item xs={4}>
-        <h1>xs=4 home</h1>
+        <GroupList />
+        <Friendrequest />
       </Grid>
       <Grid item xs={3}>
-        <h1>xs=4</h1>
+        <Friends />
+        <MyGroups />
       </Grid>
       <Grid item xs={3}>
-        <h1>xs=8</h1>
+        <Userlist />
       </Grid>
       <button onClick={handleLogOut}>LogOut</button>
     </>
@@ -58,4 +65,5 @@ const Home = () => {
 export default Home;
 
 //H.W:1.home e jaoar pore registration and log in page e jaoa jabe na
-// 2.Home Work= have to show success message with settime-out function
+// 2. have to show success message with settime-out function
+// 3. icon active and hover korte hobe

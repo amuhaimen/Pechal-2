@@ -78,4 +78,90 @@
   height: 98vh;
   background: #5f35f5;
   border-radius: 20px;
+  padding: 38px 43px;
+  box-sizing: border-box;
+}
+.imgholder {
+  display: flex;
+  justify-content: center;
+}
+
+.icon {
+  font-size: 46px;
+  color: #fff;
+}
+
+.icon-lg {
+  font-size: 46px;
+  color: rgb(0, 0, 0);
+}
+
+.iconholder {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  margin-top: 60px;
+}
+
+.grouplistholder {
+  background: #fff;
+  height: 400px;
+  -webkit-box-shadow: 6px 6px 14px -4px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 6px 6px 14px -4px rgba(0, 0, 0, 0.75);
+  box-shadow: 6px 6px 14px -4px rgba(0, 0, 0, 0.75);
+  border-radius: 20px;
+  margin-top: 10px;
+  padding: 13px 20px;
+  overflow-y: scroll;
+  margin-bottom: 70px;
+}
+
+.titleholder {
+  display: flex;
+  justify-content: space-between;
+}
+
+.titleholder button {
+  padding: 10px;
+  background: #5f35f5;
+  border: 0;
+  color: #fff;
+  font-weight: 500;
+  border-radius: 10px;
+}
+
+.box {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 20px;
+  align-items: center;
+  border-bottom: 1px solid #000;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+/* .box :last-child {
+  border-bottom: 0;
+} */
+
+.boxbtn {
+  padding: 10px;
+  background: #5f35f5;
+  border: 0;
+  color: #fff;
+  font-weight: 500;
+  border-radius: 10px;
+  margin: 0 10px;
+}
+
+.boximgholder {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+}
+
+.boximgholder img {
+  width: 100%;
 }
