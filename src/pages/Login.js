@@ -37,6 +37,7 @@ const Commonbutton = styled(Button)({
 
 const Login = () => {
   let [show, setShow] = useState(false);
+  let [loader, setLoader] = useState(false);
   let auth = getAuth();
   let navigate = useNavigate();
   const provider = new GoogleAuthProvider();
@@ -51,6 +52,7 @@ const Login = () => {
     email: "",
     password: "",
   });
+
   let handleClick = () => {
     signInWithEmailAndPassword(auth, formData.email, formData.password)
       .then((userCredential) => {
@@ -81,6 +83,7 @@ const Login = () => {
       console.log("google done");
     });
   };
+
   return (
     <>
       <Grid container spacing={2}>

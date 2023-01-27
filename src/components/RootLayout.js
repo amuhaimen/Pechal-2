@@ -5,8 +5,11 @@ import { AiOutlineHome, AiOutlineMessage } from "react-icons/ai";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { FiSettings } from "react-icons/fi";
 import { MdLogout } from "react-icons/md";
+import { useSelector } from "react-redux";
 
 const RootLayout = () => {
+  let data = useSelector((state) => state);
+  console.log(data.userdata.userInfo.displayName);
   return (
     <>
       <Grid container spacing={2}>
@@ -16,6 +19,7 @@ const RootLayout = () => {
               <div className="imgholder">
                 <img src="assets/profile.png" />
               </div>
+              <h5>{data.userdata.userInfo.displayName}</h5>
               <div className="iconholder">
                 <AiOutlineHome className="icon" />
                 <AiOutlineMessage className="icon" />

@@ -9,6 +9,7 @@ import Friendrequest from "../components/Friendrequest";
 import Friends from "../components/Friends";
 import MyGroups from "../components/MyGroups";
 import Userlist from "../components/Userlist";
+import Blockedusers from "../components/Blockedusers";
 
 const Home = () => {
   const auth = getAuth();
@@ -56,6 +57,7 @@ const Home = () => {
       </Grid>
       <Grid item xs={3}>
         <Userlist />
+        <Blockedusers />
       </Grid>
       <button onClick={handleLogOut}>LogOut</button>
     </>

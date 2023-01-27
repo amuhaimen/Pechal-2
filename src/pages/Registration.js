@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import Header from "../components/Header";
 import Heading from "../components/Heading";
-import Grid from "@mui/material/Grid";
 import InputBox from "../components/InputBox";
+import Grid from "@mui/material/Grid";
 import PButton from "../components/PButton";
 import { styled } from "@mui/material/styles";
 import Button, { ButtonProps } from "@mui/material/Button";
@@ -19,36 +19,32 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ColorRing } from "react-loader-spinner";
 
-const Commonbutton = styled(Button)({
-  borderRadius: "86px",
+const CommonButton = styled(Button)({
   width: "100%",
-  fontFamily: ["Nunito", "sans-serif"],
-  fontSize: "20px",
-  fontWeight: "600",
-  fontSize: 16,
-  padding: "19px",
-  marginTop: "56px",
+  padding: "19px 12px",
   backgroundColor: "#5F35F5",
+  borderRadius: "86px",
+  marginTop: "56px",
+  fontFamily: ["Nunito", "sans - serif"],
+  fontSize: "20.64px",
   "&:hover": {
-    backgroundColor: "black",
+    backgroundColor: "#000",
   },
 });
 
 const Registration = () => {
   const auth = getAuth();
   let navigate = useNavigate();
-  let [formData, setFormData] = useState({
-    email: "",
-    fullName: "",
-    password: "",
-  });
-
   let [show, setShow] = useState(false);
   let [loader, setLoader] = useState(false);
-
+  let [formData, setFormData] = useState({
+    email: "",
+    fullname: "",
+    password: "",
+  });
   let [error, setError] = useState({
     email: "",
-    fullName: "",
+    fullname: "",
     password: "",
   });
 
@@ -79,11 +75,19 @@ const Registration = () => {
 
     setFormData({ ...formData, [name]: value });
     setError({ ...error, [name]: "" });
+
+    // if (e.target.name == "email") {
+    //   setFormData({ ...formData, email: e.target.value });
+    //   console.log(formData);
+    // } else if (e.target.name == "fullname") {
+    //   setFormData({ ...formData, fullname: e.target.value });
+    //   console.log(formData);
+    // } else {
+    //   setFormData({ ...formData, password: e.target.value });
+    //   console.log(formData);
+    // }
   };
 
-  //=========================after 33 minutes=================
-  // 1.Home Work= have to show success message with settime-out function
-  //***********************************************************/
   // let handleEmail = (e) => {
   //   console.log(e.target.value);
   // };
@@ -93,18 +97,6 @@ const Registration = () => {
   // let handlePassword = (e) => {
   //   console.log(e.target.value);
   // };
-
-  // if (e.target.name == "email") {
-  //   setFormData({ ...formData, email: e.target.value });
-  //   console.log(formData);
-  // } else if (e.target.name == "fullName") {
-  //   setFormData({ ...formData, fullName: e.target.value });
-  //   console.log(formData);
-  // } else {
-  //   setFormData({ ...formData, password: e.target.value });
-  //   console.log(formData);
-  // }
-
   let handleClick = () => {
     //PROBLEM: form fill-up na kore button click korleo loader ashe eta off hobe kivabe
 
@@ -166,8 +158,8 @@ const Registration = () => {
             <div>
               <Header>
                 <Heading
-                  title="Get started with easily register"
                   className="heading"
+                  title="Get started with easily register"
                   as="h2"
                 />
                 <p className="regsubheading">
@@ -176,8 +168,8 @@ const Registration = () => {
               </Header>
               <div className="inputboxcontainer">
                 <InputBox
-                  type="email"
                   name="email"
+                  type="email"
                   textChange={handleForm}
                   className="reginput"
                   label="Email Address"
@@ -189,16 +181,16 @@ const Registration = () => {
                   </Alert>
                 )}
                 <InputBox
+                  name="fullname"
                   type="text"
-                  name="fullName"
                   textChange={handleForm}
                   className="reginput"
-                  label="Full name"
+                  label="Full Name"
                   variant="outlined"
                 />
-                {error.fullName && (
+                {error.fullname && (
                   <Alert className="error" severity="error">
-                    {error.fullName}
+                    {error.fullname}
                   </Alert>
                 )}
                 <div style={{ width: "100%", position: "relative" }}>
@@ -227,7 +219,6 @@ const Registration = () => {
                     {error.password}
                   </Alert>
                 )}
-
                 {loader ? (
                   <ColorRing
                     visible={true}
@@ -247,16 +238,15 @@ const Registration = () => {
                 ) : (
                   <PButton
                     click={handleClick}
-                    bname={Commonbutton}
+                    bname={CommonButton}
                     title="Sign up"
                   />
                 )}
-
                 <AuthenticationLink
                   className="reglink"
                   title="Already have an account"
+                  hreftitle="Sign In"
                   href="/login"
-                  hreftitle="Sign in"
                 />
               </div>
             </div>
