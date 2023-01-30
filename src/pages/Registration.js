@@ -13,11 +13,13 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  updateProfile,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ColorRing } from "react-loader-spinner";
+import { getDatabase, ref, set } from "firebase/database";
 
 const CommonButton = styled(Button)({
   width: "100%",
@@ -34,6 +36,7 @@ const CommonButton = styled(Button)({
 
 const Registration = () => {
   const auth = getAuth();
+  const db = getDatabase();
   let navigate = useNavigate();
   let [show, setShow] = useState(false);
   let [loader, setLoader] = useState(false);
@@ -120,11 +123,26 @@ const Registration = () => {
       createUserWithEmailAndPassword(auth, formData.email, formData.password)
         .then((user) => {
           sendEmailVerification(auth.currentUser).then(() => {
-            setLoader(false);
-            toast("Registration Successful,please check your email");
-            setTimeout(() => {
-              navigate("/login");
-            }, 2000);
+            console.log(user.user);
+            updateProfile(auth.currentUser, {
+              displayName: formData.fullname,
+            })
+              .then(() => {
+                set(ref(db, "users/" + user.user.uid), {
+                  displayName: user.user.displayName,
+                  email: user.user.email,
+                }).then(() => {
+                  setLoader(false);
+                  toast("Registration Successful,please check your email");
+                  setTimeout(() => {
+                    navigate("/login");
+                  }, 2000);
+                });
+              })
+              .catch((error) => {
+                // An error occurred
+                // ...
+              });
           });
         })
         .catch((error) => {

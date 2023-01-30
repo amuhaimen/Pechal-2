@@ -4,7 +4,7 @@ const Blockedusers = () => {
   return (
     <div className="grouplistholder">
       <div className="titleholder">
-        <h3>User list</h3>
+        <h3>Block list</h3>
       </div>
 
       <div className="boxholder">

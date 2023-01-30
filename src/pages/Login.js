@@ -20,6 +20,8 @@ import { useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { activeUser } from "../slices/userSlice";
+import { ColorRing } from "react-loader-spinner";
+import Alert from "@mui/material/Alert";
 
 const Commonbutton = styled(Button)({
   width: "100%",
@@ -54,12 +56,20 @@ const Login = () => {
   });
 
   let handleClick = () => {
+    if (formData.email == "") {
+      setError({ ...error, email: "email required" });
+    } else if (formData.password == "") {
+      setError({ ...error, password: "password required" });
+    }
     signInWithEmailAndPassword(auth, formData.email, formData.password)
       .then((userCredential) => {
         dispatch(activeUser(userCredential.user));
         localStorage.setItem("userInfo", JSON.stringify(userCredential.user));
         if (userCredential.user.emailVerified) {
-          navigate("/pechal");
+          setLoader(true);
+          setTimeout(() => {
+            navigate("/pechal");
+          }, 2000);
         } else {
           toast("please verify your email first and try again");
         }
@@ -124,6 +134,11 @@ const Login = () => {
                   variant="standard"
                   name="email"
                 />
+                {error.email && (
+                  <Alert className="error" severity="error">
+                    {error.email}
+                  </Alert>
+                )}
 
                 <div style={{ width: "100%", position: "relative" }}>
                   <InputBox
@@ -134,6 +149,7 @@ const Login = () => {
                     label="Password"
                     variant="standard"
                   />
+
                   {show ? (
                     <AiFillEye
                       onClick={() => setShow(false)}
@@ -146,11 +162,35 @@ const Login = () => {
                     />
                   )}
                 </div>
-                <PButton
-                  click={handleClick}
-                  bname={Commonbutton}
-                  title="Login to Continue"
-                />
+                {error.password && (
+                  <Alert className="error" severity="error">
+                    {error.password}
+                  </Alert>
+                )}
+                {loader ? (
+                  <ColorRing
+                    visible={true}
+                    height="80"
+                    width="80"
+                    ariaLabel="blocks-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="blocks-wrapper"
+                    colors={[
+                      "#e15b64",
+                      "#f47e60",
+                      "#f8b26a",
+                      "#abbd81",
+                      "#849b87",
+                    ]}
+                  />
+                ) : (
+                  <PButton
+                    click={handleClick}
+                    bname={Commonbutton}
+                    title="Login to Continue"
+                  />
+                )}
+
                 <AuthenticationLink
                   className="reglink"
                   title="Don’t have an account ? "

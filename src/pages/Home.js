@@ -37,13 +37,13 @@ const Home = () => {
   //   }
   // });
 
-  let handleLogOut = () => {
-    signOut(auth).then(() => {
-      localStorage.removeItem("userInfo");
-      dispatch(activeUser(null));
-      navigate("/login");
-    });
-  };
+  // let handleLogOut = () => {
+  //   signOut(auth).then(() => {
+  //     localStorage.removeItem("userInfo");
+  //     dispatch(activeUser(null));
+  //     navigate("/login");
+  //   });
+  // };
   return (
     <>
       {/* <h1>Home</h1> */}
@@ -59,13 +59,23 @@ const Home = () => {
         <Userlist />
         <Blockedusers />
       </Grid>
-      <button onClick={handleLogOut}>LogOut</button>
+      {/* <button onClick={handleLogOut}>LogOut</button> */}
     </>
   );
 };
 
 export default Home;
 
+//==================================
 //H.W:1.home e jaoar pore registration and log in page e jaoa jabe na
 // 2. have to show success message with settime-out function
 // 3. icon active and hover korte hobe
+
+//==================================
+//Problem:1.Authentication theke id bad dile realtime theke bad hoy na
+//Problem:2.profile picture change er khetre 1 bar realtime change hoy bt 2nd bar reload chara change hoy na.
+
+//==================================
+//deu work:1.forgot password
+//deu work:2.userlist thikthak kaj kore na(user list e user er name and profile picture properly ashe na)
+//deu work:3.profile picture e kichu na thakle shekha default avatar/picture boshate hobe (modal er logic boshalei hobe)
