@@ -68,8 +68,10 @@ export default Home;
 
 //==================================
 //H.W:1.home e jaoar pore registration and log in page e jaoa jabe na
-// 2. have to show success message with settime-out function
-// 3. icon active and hover korte hobe
+// 2. have to show success message with settime-out function (Done)
+// 3. icon active and hover korte hobe.
+// 4.userlist e friend request pathanor por je sender tar id te cancel button add hobe.
+// 5.user list e friend hoye gele unfriend er option thakbe
 
 //==================================
 //Problem:1.Authentication theke id bad dile realtime theke bad hoy na

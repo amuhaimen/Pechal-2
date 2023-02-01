@@ -9,6 +9,8 @@ import {
 } from "firebase/database";
 import { useSelector } from "react-redux";
 import Alert from "@mui/material/Alert";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Friendrequest = () => {
   const db = getDatabase();
@@ -29,62 +31,71 @@ const Friendrequest = () => {
     });
   }, []);
 
-  let handleDeleteFriendRequest = (friendRequest) => {
-    remove(ref(db, "friendrequest/" + friendRequest.id)).then(() => {
-      console.log("successfully deleted");
+  let handleReject = (item) => {
+    remove(ref(db, "friendrequest/" + item.id)).then(() => {
+      toast("Friend Request rejected");
     });
   };
-  let handleAcceptFriendRequest = (friendRequest) => {
+  let handleAccept = (item) => {
     set(push(ref(db, "friends")), {
-      ...friendRequest,
+      ...item,
       Date: `${new Date().getDate()}/${
         new Date().getMonth() + 1
       }/${new Date().getFullYear()}`,
     }).then(() => {
-      remove(ref(db, "friendrequest/" + friendRequest.id)).then(() => {
-        console.log("Friend request accepted");
+      remove(ref(db, "friendrequest/" + item.id)).then(() => {
+        toast("Friend Request Accepted");
       });
     });
   };
   return (
-    <div className="grouplistholder">
-      <div className="titleholder">
-        <h3>Friend request</h3>
+    <>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+
+      <div className="grouplistholder">
+        <div className="titleholder">
+          <h3>Friend request</h3>
+        </div>
+        <div className="boxholder">
+          {freq.length > 0 ? (
+            freq.map((item) => (
+              <div className="box">
+                <div className="boximgholder">
+                  <img src="assets/profile.png" />
+                </div>
+                <div className="title">
+                  <h3>{item.sendername}</h3>
+                  <p>Hi Guys, Wassup!</p>
+                </div>
+                <div>
+                  <button onClick={() => handleAccept(item)} className="boxbtn">
+                    Accept
+                  </button>
+                  <button onClick={() => handleReject(item)} className="boxbtn">
+                    Reject
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <Alert style={{ marginTop: "20px" }} severity="info">
+              No Friend Request!
+            </Alert>
+          )}
+        </div>
       </div>
-      <div className="boxholder">
-        {freq.length > 0 ? (
-          freq.map((item) => (
-            <div className="box">
-              <div className="boximgholder">
-                <img src="assets/profile.png" />
-              </div>
-              <div className="title">
-                <h3>{item.sendername}</h3>
-                <p>Hi Guys, Wassup!</p>
-              </div>
-              <div>
-                <button
-                  onClick={() => handleAcceptFriendRequest(item)}
-                  className="boxbtn"
-                >
-                  Accept
-                </button>
-                <button
-                  onClick={() => handleDeleteFriendRequest(item)}
-                  className="boxbtn"
-                >
-                  Reject
-                </button>
-              </div>
-            </div>
-          ))
-        ) : (
-          <Alert style={{ marginTop: "20px" }} severity="info">
-            No Friend Request!
-          </Alert>
-        )}
-      </div>
-    </div>
+    </>
   );
 };
 

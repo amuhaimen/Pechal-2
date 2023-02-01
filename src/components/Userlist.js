@@ -7,6 +7,7 @@ const Userlist = () => {
 
   let [userlist, setUserlist] = useState([]);
   let [freq, setFreq] = useState([]);
+  let [friends, setFriends] = useState([]);
 
   let data = useSelector((state) => state);
   console.log(data.userdata.userInfo.uid);
@@ -21,6 +22,17 @@ const Userlist = () => {
         }
       });
       setUserlist(arr);
+    });
+  }, []);
+
+  useEffect(() => {
+    const userRef = ref(db, "friends");
+    onValue(userRef, (snapshot) => {
+      let arr = [];
+      snapshot.forEach((item) => {
+        arr.push(item.val().receiverid + item.val().senderid);
+      });
+      setFriends(arr);
     });
   }, []);
 
@@ -60,8 +72,11 @@ const Userlist = () => {
               <p>{item.email}</p>
             </div>
             <div>
-              {freq.includes(item.id + data.userdata.userInfo.uid) ||
-              freq.includes(data.userdata.userInfo.uid + item.id) ? (
+              {friends.includes(item.id + data.userdata.userInfo.uid) ||
+              friends.includes(data.userdata.userInfo.uid + item.id) ? (
+                <button className="boxbtn">Friend</button>
+              ) : freq.includes(item.id + data.userdata.userInfo.uid) ||
+                freq.includes(data.userdata.userInfo.uid + item.id) ? (
                 <button className="boxbtn">Pending</button>
               ) : (
                 <button
