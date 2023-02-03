@@ -65,19 +65,3 @@ const Home = () => {
 };
 
 export default Home;
-
-//==================================
-//H.W:1.home e jaoar pore registration and log in page e jaoa jabe na
-// 2. have to show success message with settime-out function (Done)
-// 3. icon active and hover korte hobe.
-// 4.userlist e friend request pathanor por je sender tar id te cancel button add hobe.
-// 5.user list e friend hoye gele unfriend er option thakbe
-
-//==================================
-//Problem:1.Authentication theke id bad dile realtime theke bad hoy na
-//Problem:2.profile picture change er khetre 1 bar realtime change hoy bt 2nd bar reload chara change hoy na.
-
-//==================================
-//deu work:1.forgot password
-//deu work:2.userlist thikthak kaj kore na(user list e user er name and profile picture properly ashe na)
-//deu work:3.profile picture e kichu na thakle shekha default avatar/picture boshate hobe (modal er logic boshalei hobe)
