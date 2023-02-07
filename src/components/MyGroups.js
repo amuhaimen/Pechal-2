@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { getDatabase, ref, onValue } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  onValue,
+  remove,
+  set,
+  push,
+} from "firebase/database";
 import { useSelector } from "react-redux";
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
-
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 //Modal start
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -12,12 +22,15 @@ import Modal from "@mui/material/Modal";
 
 //list in MUI start
 
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import Divider from "@mui/material/Divider";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
+import {
+  List,
+  ListItem,
+  Divider,
+  ListItemText,
+  ListItemAvatar,
+  Avatar,
+} from "@mui/material/";
+
 //list in MUI end
 
 //modal style start
@@ -48,7 +61,7 @@ const MyGroups = () => {
       let arr = [];
       snapshot.forEach((item) => {
         if (item.val().groupid == id) {
-          arr.push(item.val());
+          arr.push({ ...item.val(), did: item.key });
         }
       });
       setGrlist(arr);
@@ -70,87 +83,136 @@ const MyGroups = () => {
     });
   }, []);
 
+  let handleDeleteGR = (id) => {
+    remove(ref(db, "grouprequest/" + id)).then(() => {
+      toast("removed!");
+    });
+  };
+
+  // let handleAcceptGR = (item) => {
+  //   set(push(ref(db, "Members")), {
+  //     ...item.val(),
+  //     id: item.key,
+  //   }).then((id) => {
+  //     remove(ref(db, "grouprequest/" + id)).then(() => {
+  //       toast("removed!");
+  //     });
+  //   });
+  // };
+
   return (
-    <div className="grouplistholder">
-      <div className="titleholder">
-        <h3>My Groups</h3>
-      </div>
+    <>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      <div className="grouplistholder">
+        <div className="titleholder">
+          <h3>My Groups</h3>
+        </div>
 
-      <div className="boxholder">
-        {glist.length > 0 ? (
-          glist.map((item) => (
-            <div className="box">
-              <div className="boximgholder">
-                <img src="assets/profile.png" />
+        <div className="boxholder">
+          {glist.length > 0 ? (
+            glist.map((item) => (
+              <div className="box">
+                <div className="boximgholder">
+                  <img src="assets/profile.png" />
+                </div>
+                <div className="title">
+                  <p>{item.adminname}</p>
+                  <h3>{item.groupname}</h3>
+                  <p>{item.grouptag}</p>
+                </div>
+                <div>
+                  <button className="boxbtn">info</button>
+                  <button
+                    onClick={() => handleOpen(item.gid)}
+                    className="boxbtn"
+                  >
+                    MR
+                  </button>
+                </div>
               </div>
-              <div className="title">
-                <p>{item.adminname}</p>
-                <h3>{item.groupname}</h3>
-                <p>{item.grouptag}</p>
-              </div>
-              <div>
-                <button className="boxbtn">info</button>
-                <button onClick={() => handleOpen(item.gid)} className="boxbtn">
-                  MR
-                </button>
-              </div>
-            </div>
-          ))
-        ) : (
-          <Alert style={{ marginTop: "20px" }} severity="info">
-            No Groups!
-          </Alert>
-        )}
-      </div>
-      <div>
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              Member Request
-            </Typography>
-            <List
-              sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-            >
-              {grlist.map((item) => (
-                <>
-                  <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar
-                        alt="Remy Sharp"
-                        src="/static/images/avatar/1.jpg"
-                      />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary={item.username}
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            sx={{ display: "inline" }}
-                            component="span"
-                            variant="body2"
-                            color="text.primary"
-                          >
-                            {item.username}
-                          </Typography>
-                          {" — wants to be your group member"}
-                        </React.Fragment>
-                      }
-                    />
-                  </ListItem>
+            ))
+          ) : (
+            <Alert style={{ marginTop: "20px" }} severity="info">
+              No Groups!
+            </Alert>
+          )}
+        </div>
+        <div>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Member Request
+              </Typography>
+              <List
+                sx={{
+                  width: "100%",
+                  maxWidth: 360,
+                  bgcolor: "background.paper",
+                }}
+              >
+                {grlist.length > 0 ? (
+                  grlist.map((item) => (
+                    <>
+                      <ListItem alignItems="flex-start">
+                        <ListItemAvatar>
+                          <Avatar
+                            alt="Remy Sharp"
+                            src="/static/images/avatar/1.jpg"
+                          />
+                        </ListItemAvatar>
+                        <ListItemText
+                          primary={item.username}
+                          secondary={
+                            <React.Fragment>
+                              <Typography
+                                sx={{ display: "inline" }}
+                                component="span"
+                                variant="body2"
+                                color="text.primary"
+                              >
+                                {item.username}
+                              </Typography>
+                              {" — wants to join your group."}
+                            </React.Fragment>
+                          }
+                        />
+                        <Button variant="outlined">Accept</Button>
+                        <IconButton
+                          onClick={() => handleDeleteGR(item.did)}
+                          aria-label="delete"
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </ListItem>
 
-                  <Divider variant="inset" component="li" />
-                </>
-              ))}
-            </List>
-          </Box>
-        </Modal>
+                      <Divider variant="inset" component="li" />
+                    </>
+                  ))
+                ) : (
+                  <Alert severity="info">No Request here!</Alert>
+                )}
+              </List>
+            </Box>
+          </Modal>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

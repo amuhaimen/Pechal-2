@@ -22,8 +22,8 @@
 //H.W:02/02/2023
 //(with loader and toastify)
 //1.Block users(block korle request dite parbe na)
-//2.Unfriend
-//3.Cancel friendRequest(je sender tar theke)
+//2.Unfriend(done)
+//3.Cancel friendRequest(je sender tar theke)(done)
 //4.Group member join
 //5.Remove group members
 

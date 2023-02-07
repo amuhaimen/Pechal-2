@@ -18,7 +18,7 @@ const Home = () => {
 
   let data = useSelector((state) => state);
   // console.log(data.userdata.userInfo);
-  console.log(Boolean(!data.userdata.userInfo));
+  // console.log(Boolean(!data.userdata.userInfo));
 
   useEffect(() => {
     if (!data.userdata.userInfo) {

@@ -16,7 +16,7 @@ const Friends = () => {
   const db = getDatabase();
   let [friends, setFriends] = useState([]);
   let data = useSelector((state) => state);
-  console.log(data.userdata.userInfo.uid);
+  // console.log(data.userdata.userInfo.uid);
 
   useEffect(() => {
     const starCountRef = ref(db, "friends");
@@ -34,6 +34,7 @@ const Friends = () => {
     });
   }, []);
 
+  //block start====================================
   let handleBlock = (item) => {
     data.userdata.userInfo.uid == item.senderid
       ? set(push(ref(db, "block")), {
@@ -57,6 +58,15 @@ const Friends = () => {
           });
         });
   };
+  //block end====================================
+
+  //unfriend start==========================
+  let handleUnfriend = (item) => {
+    remove(ref(db, "friends/" + item.id)).then(() => {
+      toast("unfriend done");
+    });
+  };
+  //unfriend end==========================
 
   return (
     <>
@@ -96,6 +106,12 @@ const Friends = () => {
                 <div>
                   <button onClick={() => handleBlock(item)} className="boxbtn">
                     Block
+                  </button>
+                  <button
+                    onClick={() => handleUnfriend(item)}
+                    className="boxbtn"
+                  >
+                    Unfriend
                   </button>
                 </div>
               </div>

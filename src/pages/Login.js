@@ -40,6 +40,7 @@ const Commonbutton = styled(Button)({
 const Login = () => {
   let [show, setShow] = useState(false);
   let [loader, setLoader] = useState(false);
+
   let auth = getAuth();
   let navigate = useNavigate();
   const provider = new GoogleAuthProvider();
@@ -168,21 +169,23 @@ const Login = () => {
                   </Alert>
                 )}
                 {loader ? (
-                  <ColorRing
-                    visible={true}
-                    height="80"
-                    width="80"
-                    ariaLabel="blocks-loading"
-                    wrapperStyle={{}}
-                    wrapperClass="blocks-wrapper"
-                    colors={[
-                      "#e15b64",
-                      "#f47e60",
-                      "#f8b26a",
-                      "#abbd81",
-                      "#849b87",
-                    ]}
-                  />
+                  <>
+                    <ColorRing
+                      visible={true}
+                      height="80"
+                      width="80"
+                      ariaLabel="blocks-loading"
+                      wrapperStyle={{}}
+                      wrapperClass="blocks-wrapper"
+                      colors={[
+                        "#e15b64",
+                        "#f47e60",
+                        "#f8b26a",
+                        "#abbd81",
+                        "#849b87",
+                      ]}
+                    />
+                  </>
                 ) : (
                   <PButton
                     click={handleClick}

@@ -123,7 +123,7 @@ const Registration = () => {
       createUserWithEmailAndPassword(auth, formData.email, formData.password)
         .then((user) => {
           sendEmailVerification(auth.currentUser).then(() => {
-            console.log(user.user);
+            // console.log(user.user);
             updateProfile(auth.currentUser, {
               displayName: formData.fullname,
             })

@@ -16,7 +16,7 @@ const Friendrequest = () => {
   const db = getDatabase();
   let [freq, setFreq] = useState([]);
   let data = useSelector((state) => state);
-  console.log(data.userdata.userInfo.uid);
+  // console.log(data.userdata.userInfo.uid);
 
   useEffect(() => {
     const starCountRef = ref(db, "friendrequest");

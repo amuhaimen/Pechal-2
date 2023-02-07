@@ -10,6 +10,8 @@ import { getDatabase, ref, set, push, onValue } from "firebase/database";
 import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Alert from "@mui/material/Alert";
+import { ColorRing } from "react-loader-spinner";
 
 //modal style start
 const style = {
@@ -39,8 +41,8 @@ const GroupList = () => {
   const db = getDatabase();
 
   let data = useSelector((state) => state);
+
   let handleCreateGroup = () => {
-    console.log("clicked");
     set(push(ref(db, "groups")), {
       groupname: gname,
       grouptag: gtag,
@@ -72,7 +74,7 @@ const GroupList = () => {
       userid: data.userdata.userInfo.uid,
       username: data.userdata.userInfo.displayName,
     }).then(() => {
-      console.log("request sent");
+      toast("Group Rrques sent");
     });
   };
 
@@ -96,6 +98,8 @@ const GroupList = () => {
                 <p>{item.grouptag}</p>
               </div>
               <div>
+                {/* //Here is pending button and joined button */}
+                {/* {groups.includes(data.userdata.userInfo.uid+)} */}
                 <button
                   onClick={() => handleGroupJoin(item)}
                   className="boxbtn"
@@ -106,7 +110,9 @@ const GroupList = () => {
             </div>
           ))
         ) : (
-          <h1>no groups here</h1>
+          <Alert style={{ marginTop: "20px" }} severity="info">
+            No Group Here!
+          </Alert>
         )}
       </div>
       <div>
@@ -136,6 +142,7 @@ const GroupList = () => {
                 variant="outlined"
               />
               <br />
+
               <Button
                 onClick={handleCreateGroup}
                 style={{ marginTop: "10px" }}

@@ -16,7 +16,7 @@ const Blockedusers = () => {
   const db = getDatabase();
   let [blocklist, setBlocklist] = useState([]);
   let data = useSelector((state) => state);
-  console.log(data.userdata.userInfo.uid);
+  // console.log(data.userdata.userInfo.uid);
 
   useEffect(() => {
     const starCountRef = ref(db, "block");
